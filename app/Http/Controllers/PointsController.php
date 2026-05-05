@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\pointsModel;
 use Illuminate\Http\Request;
-use phpDocumentor\Reflection\DocBlock\Description;
+use Illuminate\Support\Facades\File;
 
 class PointsController extends Controller
 {
@@ -119,6 +119,25 @@ class PointsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // Mencari data berdasarkan ID
+        $point = $this->points->find($id);
+
+        // Hapus file gambar jika ada di storage
+        if ($point->image) {
+            $filepath = public_path('storage/images/' . $point->image);
+            if (File::exists($filepath)) {
+                File::delete($filepath);
+            }
+        }
+
+        // hapus data dari database
+        if (!$point->delete()) {
+            return redirect()->route('peta')
+                ->with('error', 'Gagal menghapus data point.');
+        }
+
+        // kembali ke halaman peta dengan pesan sukses
+        return redirect()->route('peta')
+            ->with('success', 'Data point berhasil dihapus.');
     }
 }

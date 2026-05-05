@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PolygonsModel;
+use Illuminate\Support\Facades\File;
 
 class PolygonsController extends Controller
 {
@@ -117,6 +118,25 @@ class PolygonsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // Mencari data berdasarkan ID
+        $polygon = $this->polygons->findOrFail($id);
+
+        // Hapus file gambar jika ada di storage
+        if ($polygon->image) {
+            $filepath = public_path('storage/images/' . $polygon->image);
+            if (File::exists($filepath)) {
+                File::delete($filepath);
+            }
+        }
+
+        // hapus data dari database
+        if (!$polygon->delete()) {
+            return redirect()->route('peta')
+                ->with('error', 'Gagal menghapus data polygon.');
+        }
+
+        // kembali ke halaman peta dengan pesan sukses
+        return redirect()->route('peta')
+            ->with('success', 'Data polygon berhasil dihapus.');
     }
 }

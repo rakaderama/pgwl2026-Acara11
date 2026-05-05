@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PolylinesModel;
+use Illuminate\Support\Facades\File;
 
 class PolylinesController extends Controller
 {
@@ -117,6 +118,25 @@ class PolylinesController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // Mencari data berdasarkan ID
+        $polyline = $this->polylines->findOrFail($id);
+
+        // Hapus file gambar jika ada di storage
+        if ($polyline->image) {
+            $filepath = public_path('storage/images/' . $polyline->image);
+            if (File::exists($filepath)) {
+                File::delete($filepath);
+            }
+        }
+
+        // hapus data dari database
+        if (!$polyline->delete()) {
+            return redirect()->route('peta')
+                ->with('error', 'Gagal menghapus data polyline.');
+        }
+
+        // kembali ke halaman peta dengan pesan sukses
+        return redirect()->route('peta')
+            ->with('success', 'Data polyline berhasil dihapus.');
     }
 }
