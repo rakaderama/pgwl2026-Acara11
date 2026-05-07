@@ -55,12 +55,12 @@
                         <div class="mb-3">
                             <label for="image" class="form-label">Image</label>
                             <input class="form-control" type="file" id="image" name="image"
-                                onchange="document.getElementById('preview-image-point').src = window.URL.createObjectURL(this.files[0])"
+                                onchange="document.getElementById('preview-image').src = window.URL.createObjectURL(this.files[0])"
                                 rows="3">
 
                         </div>
                         <div class="mb-3">
-                            <img src="" alt="" id="preview-image-point" class="img-thumbnail"
+                            <img src="" alt="" id="preview-image" class="img-thumbnail"
                                 width="400">
                         </div>
 
@@ -278,6 +278,10 @@
                 var routedelete = "{{ route('points.delete', ':id') }}";
                 routedelete = routedelete.replace(':id', feature.properties.id);
 
+                //Route edit point
+                var routeedit = "{{ route('points.edit', ':id') }}";
+                routeedit = routeedit.replace(':id', feature.properties.id);
+
                 // variable popup content
                 var popup_content = "Nama: " + feature.properties.name + "<br>" +
                     "Deskripsi: " + feature.properties.description + "<br>" +
@@ -285,11 +289,18 @@
                     "<img src='{{ asset('storage/images') }}/" + feature.properties.image + "' alt='" + feature
                     .properties.name + "' class='img-thumbnail' width='400'>" +
                     "<br><br>" +
-                    "<form action='" + routedelete + "' method='post'>" +
-                    '@csrf' +
-                    '@method('delete')' +
-                    "<button type='submit' class='btn btn-sm btn-danger' title='Delete Point' onclick=\"return confirm('Apakah Anda yakin ingin menghapus data point ini?')\"><i class='fa-solid fa-trash-can'></i></button>" +
-                    "</form>";
+                    "<div class='row'>" +
+                        "<div class='col-2'>" +
+                            "<form action='" + routedelete + "' method='post'>" +
+                            '@csrf' +
+                            '@method('delete')' +
+                            "<button type='submit' class='btn btn-sm btn-danger' title='Delete Point' onclick=\"return confirm('Apakah Anda yakin ingin menghapus data point ini?')\"><i class='fa-solid fa-trash-can'></i></button>" +
+                            "</form>" +
+                        "</div>" +
+                        "<div class='col-2'>" +
+                            "<a href='" + routeedit + "' class='btn btn-warning btn-sm' title='Edit Point'><i class='fa-solid fa-pen-to-square'></i></a>" +
+                        "</div>" +
+                    "</div>";
 
                 layer.bindPopup(popup_content);
             },

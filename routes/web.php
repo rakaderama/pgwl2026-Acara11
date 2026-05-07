@@ -19,6 +19,9 @@ Route::post('/store-points', [\App\Http\Controllers\PointsController::class, 'st
 //Route untuk menghapus point berdasarkan ID
 Route::delete('/delete-points/{id}', [PointsController::class, 'destroy'])->name('points.delete');
 
+//Route untuk edit point berdasarkan ID
+Route::get('/edit-points/{id}', [PointsController::class, 'edit'])->name('points.edit');
+
 //Polylines
 Route::post('/store-polylines', [\App\Http\Controllers\PolylinesController::class, 'store'])->name('polylines.store');
 

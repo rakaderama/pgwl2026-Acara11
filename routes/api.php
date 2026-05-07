@@ -12,6 +12,10 @@ Route::get('/user', function (Request $request) {
 Route::get('points', [ApiController::class, 'geojson_point'])
     ->name('geojson.points');
 
+// GeoJSON API
+Route::get('point/{id}', [ApiController::class, 'geojson_point'])
+    ->name('geojson.point');
+
 Route::get('polylines', [ApiController::class, 'geojson_polylines'])
     ->name('geojson.polylines');
 
