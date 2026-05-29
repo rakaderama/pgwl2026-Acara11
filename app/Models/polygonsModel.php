@@ -39,4 +39,28 @@ class polygonsModel extends Model
 
         return $geojson;
     }
+
+    public function geojson_polygon($id)
+    {
+        $polygon = $this->select(DB::raw('id, ST_AsGeoJSON(geom) as geojson, name, description, image, created_at, updated_at'))
+            ->where('id', $id)
+            ->first();
+
+        if (!$polygon) {
+            return null;
+        }
+
+        return [
+            'type' => 'Feature',
+            'geometry' => json_decode($polygon->geojson),
+            'properties' => [
+                'id' => $polygon->id,
+                'name' => $polygon->name,
+                'description' => $polygon->description,
+                'image' => $polygon->image,
+                'created_at' => $polygon->created_at,
+                'updated_at' => $polygon->updated_at
+            ]
+        ];
+    }
 }

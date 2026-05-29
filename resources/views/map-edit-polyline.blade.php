@@ -36,7 +36,7 @@
                     <h5 class="modal-title">Edit Data</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('points.update', $id) }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('polylines.update', $id) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PATCH')
                     <div class="modal-body">
@@ -147,8 +147,8 @@
             "Satellite": satellite
         };
 
-        // GeoJSON Point
-        var points = L.geoJSON(null, {
+        // GeoJSON Polyline
+        var polylines = L.geoJSON(null, {
             onEachFeature: function(feature, layer) {
 
                 //memasukkan layer ke dalam drawnItems agar bisa diedit
@@ -176,10 +176,10 @@
             }
         });
 
-        // Ambil satu data GeoJSON point yang diedit dari server dan tambahkan ke layer
-        $.getJSON("{{ route('geojson.point', $id) }}", function(data) {
-            points.addData(data);
-            map.addLayer(points);
+        // Ambil satu data GeoJSON polyline yang diedit dari server dan tambahkan ke layer
+        $.getJSON("{{ route('geojson.polyline', $id) }}", function(data) {
+            polylines.addData(data);
+            map.addLayer(polylines);
         });
     </script>
 @endsection

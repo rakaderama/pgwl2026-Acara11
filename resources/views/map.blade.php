@@ -321,6 +321,10 @@
                 var routedelete = "{{ route('polylines.delete', ':id') }}";
                 routedelete = routedelete.replace(':id', feature.properties.id);
 
+                //Route edit polyline
+                var routeedit = "{{ route('polylines.edit', ':id') }}";
+                routeedit = routeedit.replace(':id', feature.properties.id);
+
                 var popup_content =
                     "Nama: " + feature.properties.name + "<br>" +
                     "Deskripsi: " + feature.properties.description + "<br>" +
@@ -328,11 +332,18 @@
                     "<img src='{{ asset('storage/images') }}/" + feature.properties.image + "' alt='" + feature
                     .properties.name + "' class='img-thumbnail' width='400'>" +
                     "<br><br>" +
-                    "<form action='" + routedelete + "' method='post'>" +
-                    '@csrf' +
-                    '@method('delete')' +
-                    "<button type='submit' class='btn btn-sm btn-danger' title='Delete Polyline' onclick=\"return confirm('Apakah Anda yakin ingin menghapus data polyline ini?')\"><i class='fa-solid fa-trash-can'></i></button>" +
-                    "</form>";
+                    "<div class='row'>" +
+                        "<div class='col-2'>" +
+                            "<form action='" + routedelete + "' method='post'>" +
+                            '@csrf' +
+                            '@method('delete')' +
+                            "<button type='submit' class='btn btn-sm btn-danger' title='Delete Polyline' onclick=\"return confirm('Apakah Anda yakin ingin menghapus data polyline ini?')\"><i class='fa-solid fa-trash-can'></i></button>" +
+                            "</form>" +
+                        "</div>" +
+                        "<div class='col-2'>" +
+                            "<a href='" + routeedit + "' class='btn btn-warning btn-sm' title='Edit Polyline'><i class='fa-solid fa-pen-to-square'></i></a>" +
+                        "</div>" +
+                    "</div>";
 
                 layer.bindPopup(popup_content);
             }
@@ -355,6 +366,10 @@
                 var routedelete = "{{ route('polygons.delete', ':id') }}";
                 routedelete = routedelete.replace(':id', feature.properties.id);
 
+                //Route edit polygon
+                var routeedit = "{{ route('polygons.edit', ':id') }}";
+                routeedit = routeedit.replace(':id', feature.properties.id);
+
                 var popup_content =
                     "Nama: " + feature.properties.name + "<br>" +
                     "Deskripsi: " + feature.properties.description + "<br>" +
@@ -362,11 +377,18 @@
                     "<img src='{{ asset('storage/images') }}/" + feature.properties.image + "' alt='" + feature
                     .properties.name + "' class='img-thumbnail' width='400'>" +
                     "<br><br>" +
-                    "<form action='" + routedelete + "' method='post'>" +
-                    '@csrf' +
-                    '@method('delete')' +
-                    "<button type='submit' class='btn btn-sm btn-danger' title='Delete Polygon' onclick=\"return confirm('Apakah Anda yakin ingin menghapus data polygon ini?')\"><i class='fa-solid fa-trash-can'></i></button>" +
-                    "</form>";
+                    "<div class='row'>" +
+                        "<div class='col-2'>" +
+                            "<form action='" + routedelete + "' method='post'>" +
+                            '@csrf' +
+                            '@method('delete')' +
+                            "<button type='submit' class='btn btn-sm btn-danger' title='Delete Polygon' onclick=\"return confirm('Apakah Anda yakin ingin menghapus data polygon ini?')\"><i class='fa-solid fa-trash-can'></i></button>" +
+                            "</form>" +
+                        "</div>" +
+                        "<div class='col-2'>" +
+                            "<a href='" + routeedit + "' class='btn btn-warning btn-sm' title='Edit Polygon'><i class='fa-solid fa-pen-to-square'></i></a>" +
+                        "</div>" +
+                    "</div>";
 
                 layer.bindPopup(popup_content);
             }

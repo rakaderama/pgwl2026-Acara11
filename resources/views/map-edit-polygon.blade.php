@@ -36,7 +36,7 @@
                     <h5 class="modal-title">Edit Data</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('points.update', $id) }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('polygons.update', $id) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PATCH')
                     <div class="modal-body">
@@ -147,8 +147,8 @@
             "Satellite": satellite
         };
 
-        // GeoJSON Point
-        var points = L.geoJSON(null, {
+        // GeoJSON Polygon
+        var polygons = L.geoJSON(null, {
             onEachFeature: function(feature, layer) {
 
                 //memasukkan layer ke dalam drawnItems agar bisa diedit
@@ -157,7 +157,6 @@
                 var properties = feature.properties;
                 var objectGeometry = Terraformer.geojsonToWKT(feature.geometry);
 
-
                 layer.on(
                     'click',
                     function(e) {
@@ -165,9 +164,7 @@
                         $('#name').val(properties.name);
                         $('#description').val(properties.description);
                         $('#geometry').val(objectGeometry);
-                        $('#preview-image').attr('src', "{{ asset('storage/images') }}/" + properties
-                        .image);
-
+                        $('#preview-image').attr('src', "{{ asset('storage/images') }}/" + properties.image);
 
                         //menampilkan modal edit
                         $('#modalEdit').modal('show');
@@ -176,10 +173,10 @@
             }
         });
 
-        // Ambil satu data GeoJSON point yang diedit dari server dan tambahkan ke layer
-        $.getJSON("{{ route('geojson.point', $id) }}", function(data) {
-            points.addData(data);
-            map.addLayer(points);
+        // Ambil satu data GeoJSON polygon yang diedit dari server dan tambahkan ke layer
+        $.getJSON("{{ route('geojson.polygon', $id) }}", function(data) {
+            polygons.addData(data);
+            map.addLayer(polygons);
         });
     </script>
 @endsection
